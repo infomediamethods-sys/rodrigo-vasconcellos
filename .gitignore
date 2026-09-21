@@ -1,0 +1,20 @@
+.DS_Store
+
+# Internal project notes and working material.
+*.md
+Claude outputs/
+Referencias-Site/
+cliente/
+gerar-imagens/
+material-real-cliente/
+revisao/
+specs/
+_ferramentas/
+
+# Local/editor/runtime files.
+.env
+.env.*
+node_modules/
+dist/
+build/
+.vercel/

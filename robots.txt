@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://psicologoflorianopolis.psc.br/sitemap.xml

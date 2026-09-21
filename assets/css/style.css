@@ -1,0 +1,754 @@
+/* =========================================================
+   Rodrigo Vasconcellos · Psicólogo Clínico
+   Sistema visual: @specs/design.md v2
+   Arquivo único. Todo valor sai de um token de :root.
+   ========================================================= */
+
+/* ---------- 1. TOKENS ---------- */
+:root {
+  /* Índigo — marca */
+  --indigo-deep: #1d1a4e;
+  --indigo-core: #232458;
+  --indigo-mid:  #2e2d5e;
+  --indigo-soft: #444571;
+  /* Dourado — acento único */
+  --gold: #dd9f2a;        /* acento visual: preenchimento, detalhe, número grande */
+  --gold-ink: #c68a1b;    /* hover de acento */
+  --gold-texto: #8f610e;  /* dourado para TEXTO pequeno sobre fundo claro — passa AA (5.4:1 no branco, 4.9:1 no linho) */
+  /* Neutros quentes */
+  --white: #ffffff;
+  --verde-claro: #4fb974;  /* bolinha de "aceitando novos pacientes" — só sobre o índigo escuro */
+  --linen: #f7f2ef;
+  --cream: #fcf6ec;
+  --onyx:  #231f20;
+  --black: #000000;
+  --grey-50:  #f4f2f0;
+  --grey-100: #e9e6e2;
+  --grey-200: #d8d3cd;
+  --grey-300: #b9b2aa;
+  --grey-400: #8c857d;
+  --grey-500: #625c55;
+
+  /* Papéis semânticos */
+  --brand: var(--indigo-core);
+  --brand-strong: var(--indigo-deep);
+  --accent: var(--gold);
+  --surface-page: var(--white);
+  --surface-linen: var(--linen);
+  --surface-cream: var(--cream);
+  --surface-card: var(--white);
+  --surface-invert: var(--indigo-core);
+  --text-heading: var(--black);
+  --text-body: var(--onyx);
+  --text-muted: var(--grey-500);
+  --text-on-invert: var(--white);
+  --text-on-invert-muted: #ffffffad;
+  --text-on-accent: var(--indigo-deep);
+  --text-accent: var(--gold-texto);
+  --border-subtle: var(--grey-100);
+  --border-default: var(--grey-200);
+  --border-strong: var(--grey-300);
+  --border-invert: #ffffff24;
+  --focus-ring: #dd9f2a8c;
+
+  --grad-deep-indigo: linear-gradient(135deg, #2e2d5e 0%, #232458 55%, #1d1a4e 100%);
+  --grad-mesh-brand:
+    radial-gradient(65% 55% at 66% 30%, #fbe6b0 0%, #fbe6b000 55%),
+    radial-gradient(75% 70% at 90% 6%,  #e9a63a 0%, #e9a63a00 62%),
+    radial-gradient(85% 80% at 40% 8%,  #dd9f2a 0%, #dd9f2a00 58%),
+    radial-gradient(95% 95% at 2% 102%, #46579e 0%, #46579e00 55%),
+    radial-gradient(80% 90% at 30% 96%, #2a2a66 0%, #2a2a6600 60%),
+    linear-gradient(122deg, #24215a 0%, #4b4680 34%, #9c7560 62%, #d79b3e 100%);
+
+  /* Tipografia */
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-serif);
+  --font-body: var(--font-sans);
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600;
+
+  --fs-display: clamp(2.5rem, 1.35rem + 4.6vw, 3.75rem);
+  --lh-display: 1.05;
+  --fs-h1: var(--fs-display);
+  --fs-h2: clamp(1.875rem, 1.25rem + 2.5vw, 2.5rem);
+  --lh-h2: 1.1;
+  --fs-h3: clamp(1.375rem, 1.15rem + 0.9vw, 1.75rem);
+  --lh-h3: 1.15;
+  --fs-h4: 1.25rem;  --lh-h4: 1.3;
+  --fs-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.1875rem); --lh-lead: 1.55;
+  --fs-body: 0.9375rem; --lh-body: 1.7;
+  --fs-small: 0.875rem; --lh-small: 1.5;
+  --fs-eyebrow: 0.75rem; --lh-eyebrow: 1.4;
+  --tracking-eyebrow: 0.14em;
+  --tracking-tight: -0.02em;
+
+  /* Espaçamento */
+  --space-1: .25rem; --space-2: .5rem;  --space-3: .75rem;
+  --space-4: 1rem;   --space-5: 1.5rem; --space-6: 2rem;
+  --space-7: 3rem;   --space-8: 4rem;   --space-9: 6rem; --space-10: 8rem;
+  --section-y: var(--space-8);
+  --gutter: 1.25rem;
+  --container: 1440px;
+  --container-narrow: 760px;
+
+  /* Raios */
+  --radius-xs: 6px; --radius-sm: 10px; --radius-md: 16px;
+  --radius-lg: 22px; --radius-xl: 32px; --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-xs: 0 1px 2px #231f200d;
+  --shadow-sm: 0 2px 8px #231f200f;
+  --shadow-md: 0 10px 30px #231f2014;
+  --shadow-lg: 0 24px 60px #1d1a4e24;
+  --shadow-indigo: 0 18px 44px #1d1a4e47;
+
+  /* Movimento */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-fast: .14s; --dur-base: .24s; --dur-slow: .42s;
+
+  --header-h: 84px;
+}
+@media (min-width: 600px) { :root { --gutter: 1.75rem; --section-y: var(--space-9); } }
+@media (min-width: 900px) { :root { --gutter: 2rem; --section-y: var(--space-9); } }
+
+/* ---------- 2. RESET ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; overflow-x: clip; }
+/* Rolagem suave com Lenis. Quando ele está ativo, o scroll-behavior nativo é
+   desligado para os dois não brigarem. Sem JavaScript ou com "reduzir
+   movimento" ligado, vale a rolagem normal do navegador. */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  /* clip, e não hidden: hidden transforma o body em área de rolagem e
+     desliga o position: sticky do cabeçalho (era por isso que ele não acompanhava) */
+  overflow-x: clip;
+}
+img, picture, svg { display: block; max-width: 100%; }
+img { height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+a { color: inherit; }
+ul, ol { list-style: none; padding: 0; }
+:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; border-radius: var(--radius-xs); }
+
+/* ---------- 3. TIPOGRAFIA ---------- */
+h1, h2, h3 { font-family: var(--font-display); font-weight: var(--fw-medium); letter-spacing: var(--tracking-tight); }
+h1 { font-size: var(--fs-h1); line-height: var(--lh-display); color: var(--indigo-deep); }
+h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); color: var(--text-heading); }
+h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
+h4 { font-family: var(--font-body); font-size: 1.0625rem; font-weight: var(--fw-semibold); line-height: 1.4; letter-spacing: 0; }
+em { font-style: italic; }
+p { color: var(--text-muted); }
+strong { font-weight: var(--fw-semibold); color: var(--text-body); }
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  line-height: var(--lh-eyebrow);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-accent);
+  margin-bottom: var(--space-3);
+}
+.lead { font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--text-muted); }
+.small { font-size: var(--fs-small); line-height: var(--lh-small); }
+.assinatura { font-size: var(--fs-small); font-weight: var(--fw-semibold); color: var(--text-body); }
+.visualmente-oculto {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- 4. LAYOUT ---------- */
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+.container--estreito { max-width: var(--container-narrow); }
+.secao { padding-block: var(--section-y); }
+.secao--linho { background: var(--surface-linen); }
+.secao--creme { background: var(--surface-cream); }
+.secao--invertida { background: var(--indigo-core); color: var(--text-on-invert); position: relative; isolation: isolate; }
+.secao--invertida h2, .secao--invertida h3 { color: var(--text-on-invert); }
+.secao--invertida .eyebrow, .cta-final .eyebrow { color: var(--gold); }
+.secao--invertida p { color: var(--text-on-invert-muted); }
+.secao__cabecalho { max-width: 46rem; margin-bottom: var(--space-7); }
+.secao__cabecalho .lead { margin-top: var(--space-4); }
+.secao__cabecalho--centro { margin-inline: auto; text-align: center; }
+
+.grid { display: grid; gap: var(--space-4); }
+@media (min-width: 600px) { .grid { gap: var(--space-5); } }
+@media (min-width: 900px) { .grid { gap: var(--space-6); } }
+.grid-2, .grid-3, .grid-4 { display: grid; gap: var(--space-4); align-items: stretch; grid-template-columns: minmax(0, 1fr); }
+/* minmax(0,1fr): sem isso a caixa de foto pendente (que tem proporção fixa)
+   empurrava a coluna para além da tela no celular. */
+@media (min-width: 600px) {
+  .grid-2, .grid-3, .grid-4 { gap: var(--space-5); grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  .grid-2 { gap: var(--space-6); }
+  .grid-3 { gap: var(--space-6); grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { gap: var(--space-5); grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ---------- 5. BOTÕES ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  padding: 12px 26px;
+  font-size: 0.875rem; font-weight: var(--fw-semibold); line-height: 1.2;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out);
+  min-height: 44px;
+}
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn--primario { background: var(--indigo-core); color: var(--white); }
+.btn--secundario { background: transparent; color: var(--indigo-core); border: 1px solid var(--border-default); }
+.btn--acento { background: var(--gold); color: var(--text-on-accent); }
+.btn--claro { background: var(--white); color: var(--indigo-core); }
+@media (hover: hover) {
+  .btn--primario:hover { background: var(--indigo-deep); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn--secundario:hover { background: var(--linen); border-color: var(--border-strong); }
+  .btn--acento:hover { background: var(--gold-ink); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn--claro:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+}
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn-grupo { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+@media (max-width: 599px) { .btn-grupo { flex-direction: column; } .btn-grupo .btn { width: 100%; } }
+
+.link-seta {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: var(--fs-small); font-weight: var(--fw-medium);
+  color: var(--indigo-core); text-decoration: underline;
+  text-decoration-color: var(--gold); text-decoration-thickness: 2px; text-underline-offset: 4px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.link-seta svg { width: 14px; height: 14px; transition: transform var(--dur-fast) var(--ease-out); }
+@media (hover: hover) { .link-seta:hover { color: var(--indigo-deep); } .link-seta:hover svg { transform: translateX(3px); } }
+.microcopy { font-size: var(--fs-small); color: var(--text-muted); margin-top: var(--space-4); }
+
+/* ---------- 6. CARDS ---------- */
+.card {
+  display: flex; flex-direction: column;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-5);
+  height: 100%;
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+@media (min-width: 900px) { .card { padding: var(--space-6); } }
+.card__icone {
+  width: 44px; height: 44px; flex: none;
+  display: grid; place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--linen); color: var(--indigo-core);
+  margin-bottom: var(--space-4);
+}
+.card__icone svg { width: 22px; height: 22px; }
+.card h3, .card h4 { margin-bottom: var(--space-2); color: var(--text-heading); }
+.card p { font-size: var(--fs-body); }
+.card .link-seta { margin-top: auto; padding-top: var(--space-4); align-self: flex-start; }
+@media (hover: hover) {
+  a.card:hover, .card--clicavel:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border-default); }
+}
+a.card { text-decoration: none; }
+
+.card--imagem { padding: 0; overflow: hidden; }
+.card--imagem .card__corpo { padding: var(--space-5); display: flex; flex-direction: column; flex: 1; }
+@media (min-width: 900px) { .card--imagem .card__corpo { padding: var(--space-6); } }
+.card__img { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; transition: filter var(--dur-base) var(--ease-out); }
+@media (hover: hover) { a.card--imagem:hover .card__img { filter: brightness(.96); } }
+
+.card--destaque { background: var(--indigo-core); border-color: transparent; color: var(--text-on-invert); }
+.card--destaque h3 { color: var(--text-on-invert); }
+.card--destaque p { color: var(--text-on-invert-muted); }
+.card--destaque .btn { margin-top: auto; align-self: flex-start; }
+
+/* ---------- 7. CAIXA DE FOTO PENDENTE ---------- */
+.foto-pendente {
+  /* largura fixa em 100%: sem isso, quando o texto é maior que a proporção,
+     a caixa cresce na altura e a proporção empurra a largura para fora da tela */
+  width: 100%; min-width: 0;
+  display: grid; place-content: center; gap: var(--space-3);
+  padding: var(--space-6); text-align: center;
+  background: var(--linen);
+  border: 2px dashed var(--grey-300);
+  border-radius: var(--radius-md);
+  aspect-ratio: 3 / 2;
+  color: var(--grey-500);
+}
+.foto-pendente__icone { width: 32px; height: 32px; opacity: .55; margin-inline: auto; }
+.foto-pendente__titulo { font-size: var(--fs-body); font-weight: var(--fw-semibold); line-height: 1.45; color: var(--onyx); max-width: 34ch; margin-inline: auto; }
+.foto-pendente__meta { font-size: var(--fs-small); color: var(--grey-500); }
+
+/* ---------- 8. BARRA DE AVISO ---------- */
+.barra-aviso {
+  background: var(--indigo-deep); color: var(--text-on-invert);
+  font-size: var(--fs-small); text-align: center;
+  padding: var(--space-3) var(--gutter);
+  display: flex; align-items: center; justify-content: center; gap: var(--space-3);
+}
+.barra-aviso[hidden] { display: none; }
+.barra-aviso__pill { display: inline-flex; align-items: center; gap: var(--space-2); }
+/* Os dois avisos têm o mesmo peso e a mesma cor de texto. O que muda é a
+   bolinha: verde no "aceitando novos pacientes", dourada no outro. */
+.barra-aviso__ponto.barra-aviso__ponto--sim { background: var(--verde-claro); }
+/* No celular só cabe o aviso principal. */
+@media (max-width: 599px) { .barra-aviso__item { display: none; } }
+.barra-aviso__ponto { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex: none; }
+
+/* ---------- 9. CABEÇALHO ---------- */
+.pular-conteudo {
+  position: absolute; left: var(--gutter); top: -100px; z-index: 100;
+  background: var(--white); color: var(--indigo-core);
+  padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md); text-decoration: none; font-weight: var(--fw-semibold);
+}
+.pular-conteudo:focus { top: var(--space-3); }
+
+/* Dois estados, como no site de referência:
+   - no topo: cápsula branca flutuando por cima da foto, na largura útil do site;
+   - rolando: vira uma barra de ponta a ponta, colada no topo da tela.
+   A folga de cima vira margem de baixo na troca, para o conteúdo não pular. */
+.header {
+  --header-folga: var(--space-3);
+  position: sticky; top: 0; z-index: 50;
+  padding-top: var(--header-folga); margin-bottom: 0;
+  transition: padding var(--dur-slow) var(--ease-out), margin var(--dur-slow) var(--ease-out);
+}
+@media (min-width: 900px) { .header { --header-folga: var(--space-4); } }
+.header > .container {
+  max-width: var(--container);
+  transition: max-width .36s cubic-bezier(.22,1,.36,1), padding .36s cubic-bezier(.22,1,.36,1);
+}
+.header__barra {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-5);
+  background: rgba(255,255,255,.9);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 30px rgba(35,31,32,.08);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5);
+  transition: border-radius .36s cubic-bezier(.22,1,.36,1), padding .36s cubic-bezier(.22,1,.36,1),
+              box-shadow var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
+}
+.header--compacto { padding-top: 0; margin-bottom: var(--header-folga); }
+.header--compacto > .container { max-width: 100vw; padding-inline: 0; }
+.header--compacto .header__barra {
+  border-radius: 0; border-color: transparent transparent #e9e6e2;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(35,31,32,.06);
+  padding: var(--space-3) var(--gutter);
+}
+@media (prefers-reduced-motion: reduce) {
+  .header, .header > .container, .header__barra { transition: none; }
+}
+
+.marca { text-decoration: none; display: block; line-height: 1.1; }
+.marca__logo { height: 32px; width: auto; display: block; }
+@media (min-width: 600px) { .marca__logo { height: 36px; } }
+@media (min-width: 900px) { .marca__logo { height: 40px; } }
+.marca__nome { font-family: var(--font-display); font-size: 1.25rem; font-weight: var(--fw-medium); color: var(--indigo-deep); letter-spacing: -.01em; }
+.marca__papel { display: block; font-size: 0.6875rem; letter-spacing: .08em; text-transform: uppercase; color: var(--grey-500); margin-top: 3px; }
+.rodape .marca__logo { height: 38px; }
+@media (min-width: 900px) { .rodape .marca__logo { height: 44px; } }
+
+.nav { display: none; }
+@media (min-width: 900px) {
+  .nav { display: flex; align-items: center; gap: var(--space-5); }
+  .nav a {
+    font-size: var(--fs-small); font-weight: var(--fw-medium); color: var(--text-body);
+    text-decoration: none; padding-block: var(--space-2);
+    border-bottom: 2px solid transparent; transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .nav a:hover { border-bottom-color: var(--gold); }
+}
+.header__acoes { display: flex; align-items: center; gap: var(--space-3); }
+.header .btn--primario { display: none; }
+@media (min-width: 600px) { .header .btn--primario { display: inline-flex; } }
+
+.nav-toggle {
+  width: 44px; height: 44px; flex: none;
+  display: grid; place-items: center;
+  border: 1px solid var(--border-default); border-radius: 50%; color: var(--indigo-core);
+}
+.nav-toggle svg { width: 20px; height: 20px; }
+@media (min-width: 900px) { .nav-toggle { display: none; } }
+
+.drawer {
+  position: fixed; inset: 0; z-index: 60;
+  background: var(--white);
+  padding: var(--space-5) var(--gutter) var(--space-8);
+  display: flex; flex-direction: column; gap: var(--space-6);
+  transform: translateX(100%);
+  transition: transform var(--dur-base) var(--ease-out), visibility var(--dur-base);
+  overflow-y: auto;
+  /* fechado: invisível E fora da ordem de tabulação, e sem gerar rolagem lateral */
+  visibility: hidden;
+  pointer-events: none;
+}
+.drawer[data-aberto="true"] { transform: translateX(0); visibility: visible; pointer-events: auto; }
+.drawer__topo { display: flex; align-items: center; justify-content: space-between; }
+.drawer__links { display: flex; flex-direction: column; gap: var(--space-2); }
+.drawer__links a {
+  font-family: var(--font-display); font-size: 1.5rem; color: var(--indigo-deep);
+  text-decoration: none; padding-block: var(--space-3); border-bottom: 1px solid var(--border-subtle);
+}
+.drawer__rodape { margin-top: auto; display: flex; flex-direction: column; gap: var(--space-3); }
+body[data-drawer="true"] { overflow: hidden; }
+
+/* ---------- 10. HERÓI ---------- */
+/* A imagem sangra de ponta a ponta da tela, como no site de referência:
+   sem margem lateral e sem canto arredondado. O texto continua preso à
+   largura útil do site, para não encostar na borda. */
+.hero { background: var(--surface-linen); padding-block: 0 var(--section-y); margin-top: calc(-1 * var(--header-h)); }
+/* No celular a foto ganha a altura do cabeçalho, para a cápsula não comer o céu. */
+.hero__moldura > picture .hero__foto { aspect-ratio: auto; height: calc(125vw + var(--header-h)); }
+/* Celular: foto mais baixa, para o título e o botão de agendar aparecerem já
+   na primeira tela. A foto é ancorada embaixo e continua mostrando o costão. */
+@media (max-width: 599px) {
+  /* 21/09: a foto vertical volta à altura original (pedido do Armin) */
+  .hero .hero__conteudo { margin-top: var(--space-4); }
+  .hero__titulo .eyebrow { margin-bottom: var(--space-2); }
+  /* 21/09: título maior que os 34px de antes, mas menor que os 60px do
+     computador (60px ficou grande demais no celular, segundo o Armin).
+     44px em 390; reduz um pouco em telas estreitas. */
+  .hero__titulo h1 { font-size: min(2.75rem, 11.3vw); line-height: 1.08; max-width: none; }
+  .hero__cartao { margin-top: var(--space-4); padding: var(--space-5) var(--space-5) var(--space-4); }
+  .hero__cartao p { font-size: 1rem; line-height: 1.55; }
+  .hero__cartao .btn-grupo { margin-top: var(--space-4); }
+}
+/* Celular (pedido do Armin, 21/09): título, chamada e cartão ficam no alto
+   do herói, logo abaixo do cabeçalho, por cima da foto — como no computador.
+   A foto vira fundo e cresce junto com o conteúdo. O título fica índigo sobre
+   o céu claro, igual ao desktop, então não precisa de véu escuro. */
+@media (max-width: 599px) {
+  .hero { padding-bottom: 0; }
+  .hero__moldura { display: grid; }
+  .hero__moldura > picture, .hero__moldura > .foto-pendente, .hero .hero__conteudo { grid-area: 1 / 1; min-width: 0; }
+  .hero__moldura > picture { display: block; }
+  .hero__moldura > picture .hero__foto { height: 100%; min-height: calc(125vw + var(--header-h)); object-fit: cover; object-position: 50% 100%; }
+  .hero .hero__conteudo {
+    position: relative; z-index: 2; margin: 0;
+    padding-top: calc(var(--header-h) + var(--space-5)); padding-bottom: var(--space-6);
+  }
+  .hero__titulo .eyebrow { color: var(--gold-texto); }
+  .hero__titulo h1 { color: var(--indigo-deep); }
+}
+/* Cartão do topo com efeito de vidro (testado no celular em 21/09 e aprovado
+   pelo Armin para celular E computador). Mantém borda, cantos e sombra; o
+   fundo branco vira translúcido com desfoque e a foto aparece por trás. */
+.hero .hero__cartao {
+  background: rgba(255,255,255,.38);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 20px 50px rgba(29,26,78,.22), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.hero .hero__cartao p { color: var(--indigo-deep); }
+.hero .hero__cartao .microcopy { color: var(--indigo-deep); }
+.hero .hero__cartao .btn--secundario { background: rgba(255,255,255,.55); border-color: rgba(255,255,255,.8); }
+
+.hero__moldura { position: relative; }
+.hero__foto { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.hero__moldura .foto-pendente { aspect-ratio: 4 / 5; border-radius: 0; }
+.hero__conteudo { margin-top: var(--space-5); }
+.hero__titulo h1 { max-width: 16ch; }
+/* "o que pesa" nunca se separa em duas linhas */
+.hero__titulo h1 em { white-space: nowrap; }
+
+@media (min-width: 900px) {
+  /* Altura pensada para caber quase inteira na primeira tela, como na
+     referência: acompanha a altura do navegador, com piso e teto. */
+  .hero__moldura {
+    /* mesma área visível de antes, somando a faixa que fica atrás do cabeçalho */
+    min-height: calc(720px + var(--header-h)); height: calc(100vh - 120px + var(--header-h)); max-height: calc(880px + var(--header-h));
+    display: grid; grid-template-rows: 1fr; overflow: hidden;
+  }
+  .hero__moldura > .foto-pendente, .hero__moldura > picture, .hero__moldura > img { grid-area: 1 / 1; min-height: 0; }
+  .hero__moldura > picture { display: block; height: 100%; }
+  .hero__foto, .hero__moldura > picture .hero__foto { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; object-fit: cover; }
+  /* Corte escolhido pelo Armin (opção 1): a foto é ancorada embaixo, para
+     mostrar as pedras inteiras em vez de céu. Sem ampliação nenhuma, então
+     não há perda de nitidez. Só no computador; no celular a foto vertical
+     já é dominada pelas pedras. */
+  .hero__moldura > picture .hero__foto { object-position: 50% 100%; }
+  .hero__moldura .foto-pendente { aspect-ratio: auto; height: 100%; }
+  /* margin-inline: auto mantém o texto na mesma largura útil do resto do
+     site em telas maiores que 1440 (antes ficava colado na borda esquerda). */
+  .hero__conteudo {
+    grid-area: 1 / 1; z-index: 2; width: 100%; margin-block: 0; margin-inline: auto;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding-block: calc(var(--header-h) + var(--space-8)) var(--space-8);
+  }
+  .hero__titulo { max-width: 60%; }
+  /* no computador o título fica em duas linhas: "Um lugar para conversar / sobre o que pesa" */
+  .hero__titulo h1 { max-width: 23ch; }
+  /* A foto do topo tem o lado esquerdo claro, igual à do site de referência.
+     Por isso o título é índigo e não existe véu escuro por cima da imagem.
+     Se um dia a foto for trocada por uma escura, voltar o título para branco
+     com text-shadow e reativar um gradiente escuro em .hero__moldura::after. */
+  .hero__titulo .eyebrow { color: var(--gold-texto); }
+  .hero__titulo h1 { color: var(--indigo-deep); }
+  /* No computador o texto fica por cima da foto, então não existe nada
+     embaixo dela: a faixa de credenciais encosta direto na imagem.
+     No celular a folga continua, porque ali o texto fica abaixo da foto. */
+  .hero { padding-bottom: 0; }
+}
+.hero__cartao {
+  background: var(--white); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg); padding: var(--space-5);
+  margin-top: var(--space-5);
+}
+@media (min-width: 900px) {
+  .hero__cartao { width: min(440px, 42%); margin: 0; padding: var(--space-6); }
+}
+.hero__cartao p { font-size: var(--fs-lead); line-height: var(--lh-lead); color: var(--text-body); }
+.hero__cartao .btn-grupo { margin-top: var(--space-5); }
+/* Cabe tudo em uma linha no computador; no celular pode quebrar. */
+.hero__cartao .microcopy { font-size: 0.75rem; letter-spacing: .01em; margin-top: var(--space-3); }
+@media (min-width: 900px) { .hero__cartao .microcopy { font-size: 0.6875rem; white-space: nowrap; } }
+
+/* ---------- 11. FAIXA DE CONFIANÇA ---------- */
+.faixa-confianca { border-bottom: 1px solid var(--border-subtle); }
+.faixa-confianca__lista {
+  display: flex; gap: var(--space-3);
+  overflow-x: auto; scroll-snap-type: x proximity;
+  padding-block: var(--space-5);
+  scrollbar-width: none;
+}
+.faixa-confianca__lista::-webkit-scrollbar { display: none; }
+@media (min-width: 900px) { .faixa-confianca__lista { overflow: visible; flex-wrap: wrap; justify-content: center; gap: var(--space-4); } }
+.pill-credencial {
+  display: inline-flex; align-items: center; gap: var(--space-2); flex: none;
+  scroll-snap-align: start;
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem; color: var(--text-body); white-space: nowrap;
+}
+.pill-credencial svg { width: 16px; height: 16px; color: var(--gold); flex: none; }
+
+/* ---------- 12. GRADE "COMO POSSO AJUDAR" ---------- */
+@media (min-width: 900px) {
+  .grid-ajuda { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: var(--space-6); align-items: stretch; }
+  .grid-ajuda > :first-child { grid-row: span 2; }
+  .grid-ajuda > :first-child .card__img { aspect-ratio: 4 / 3; }
+}
+
+/* ---------- 12b. LISTAS QUE DESLIZAM NO CELULAR ---------- */
+/* No celular, as listas longas da home viram uma fileira que se arrasta com
+   o dedo, como as avaliações. Do tablet para cima continuam em grade. A
+   fileira encosta nas bordas da tela e o próximo cartão aparece pela metade,
+   para ficar claro que dá para arrastar. */
+@media (max-width: 599px) {
+  .grid-deslizar, .carrossel {
+    display: flex; gap: var(--space-4);
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter)); padding: var(--space-1) var(--gutter) var(--space-4);
+    scrollbar-width: none;
+  }
+  .grid-deslizar::-webkit-scrollbar { display: none; }
+  .grid-deslizar > * { flex: 0 0 84%; scroll-snap-align: start; height: auto; }
+  .card-avaliacao { flex-basis: 84%; }
+  /* cartões fora da tela não esperam a animação de entrada */
+  .grid-deslizar > .anima, .carrossel > .anima { opacity: 1; transform: none; }
+  .deslizar-dica { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-small); color: var(--grey-500); }
+  .deslizar-dica svg { width: 16px; height: 16px; }
+}
+@media (min-width: 600px) { .deslizar-dica { display: none; } }
+
+/* ---------- 13. SOBRE ---------- */
+.sobre__grade { display: grid; gap: var(--space-6); align-items: center; }
+@media (min-width: 900px) { .sobre__grade { grid-template-columns: 5fr 7fr; gap: var(--space-8); } }
+.sobre__foto { position: relative; }
+.sobre__foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius-lg); }
+.sobre__foto .foto-pendente { aspect-ratio: 4 / 5; border-radius: var(--radius-lg); }
+/* Páginas internas: as fotos da ilha são paisagens, então aparecem inteiras em 3:2
+   em vez de recortadas em retrato. */
+.sobre__foto--paisagem img { aspect-ratio: 3 / 2; }
+/* Topo das páginas internas: texto na metade esquerda e foto ocupando a metade
+   direita da seção inteira, encostando em cima e embaixo, sem passar do meio.
+   No celular a foto vai de uma borda à outra e encosta no fim da seção. */
+.hero-interno { position: relative; }
+@media (max-width: 899px) {
+  .hero-interno { padding-bottom: 0; }
+  .hero-interno .sobre__foto { margin-inline: calc(-1 * var(--gutter)); }
+  .hero-interno .sobre__foto img { border-radius: 0; }
+}
+@media (min-width: 900px) {
+  .hero-interno { min-height: 600px; display: flex; align-items: center; }
+  .hero-interno > .container { width: 100%; }
+  .hero-interno .sobre__grade { grid-template-columns: 1fr 1fr; }
+  .hero-interno .sobre__texto { padding-right: var(--space-8); }
+  .hero-interno .sobre__foto { position: absolute; top: 0; bottom: 0; left: 50%; right: 0; }
+  .hero-interno .sobre__foto picture { display: block; width: 100%; height: 100%; }
+  .hero-interno .sobre__foto img { width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; border-radius: 0; }
+}
+.badge-numero {
+  position: absolute; right: calc(var(--space-4) * -1); bottom: var(--space-5);
+  background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  padding: var(--space-4) var(--space-5); text-align: center; min-width: 124px;
+}
+.badge-numero strong { display: block; font-family: var(--font-display); font-size: 2.5rem; line-height: 1; color: var(--indigo-deep); font-weight: var(--fw-medium); }
+.badge-numero span { display: block; font-size: 0.75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--grey-500); margin-top: var(--space-2); }
+.sobre__texto p + p { margin-top: var(--space-4); }
+.sobre__texto .assinatura { margin-top: var(--space-5); }
+.sobre__texto .btn { margin-top: var(--space-5); }
+
+/* ---------- 14. PASSOS ---------- */
+.secao--passos { background-color: var(--indigo-core); background-image: var(--grad-deep-indigo); background-size: cover; background-position: center; position: relative; }
+.secao--passos > .container { position: relative; z-index: 1; }
+.secao--passos::before { content: ""; position: absolute; inset: 0; background: rgba(29,26,78,.35); }
+.passo { display: flex; gap: var(--space-4); align-items: flex-start; }
+@media (min-width: 900px) { .passo { flex-direction: column; gap: var(--space-4); } }
+.passo__numero { font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--gold); font-weight: var(--fw-medium); flex: none; }
+.passo h3 { margin-bottom: var(--space-2); }
+
+/* ---------- 15. NOTAS EM LINHA ---------- */
+.notas-inline { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-5); }
+.nota-inline { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--fs-small); color: var(--text-body); }
+.nota-inline svg { width: 18px; height: 18px; color: var(--indigo-core); flex: none; }
+
+/* ---------- 16. FORMAÇÃO ---------- */
+.card-formacao { text-align: left; }
+.card-formacao .card__icone { width: 58px; height: 58px; }
+.card-formacao .card__icone svg { width: 26px; height: 26px; }
+.card-formacao__ano { font-size: var(--fs-small); color: var(--grey-500); margin-top: var(--space-1); }
+
+/* ---------- 17. UNIDADES ---------- */
+.card-unidade { padding: 0; overflow: hidden; }
+.card-unidade__foto img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.card-unidade__foto .foto-pendente { aspect-ratio: 16 / 10; border-radius: 0; border-width: 0 0 2px 0; }
+.card-unidade__corpo { padding: var(--space-5); display: flex; flex-direction: column; flex: 1; gap: var(--space-3); }
+@media (min-width: 900px) { .card-unidade__corpo { padding: var(--space-6); } }
+.endereco { font-size: var(--fs-body); color: var(--text-muted); font-style: normal; }
+.endereco strong { display: block; color: var(--text-body); }
+.card-unidade .btn { margin-top: auto; align-self: flex-start; }
+.lista-bairros { margin-top: var(--space-6); font-size: var(--fs-small); color: var(--text-muted); max-width: 60rem; }
+
+/* ---------- 18. AVALIAÇÕES ---------- */
+.avaliacoes__nota { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+.carrossel { display: flex; align-items: stretch; gap: var(--space-5); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: var(--space-4); scrollbar-width: none; }
+.carrossel::-webkit-scrollbar { display: none; }
+.card-avaliacao { flex: 0 0 min(340px, 84%); scroll-snap-align: start; display: flex; flex-direction: column; }
+.card-avaliacao blockquote { flex: 1; }
+/* Três depoimentos de tamanho parecido: no computador ocupam a linha inteira. */
+/* No computador viram três colunas iguais: a grade garante caixas da mesma
+   altura, coisa que o flex com rolagem lateral não entregava. */
+@media (min-width: 900px) {
+  .carrossel { display: grid; grid-template-columns: repeat(3, 1fr); overflow: visible; padding-bottom: 0; }
+  .card-avaliacao { flex: initial; }
+}
+/* Selo de opinião verificada: check dourado, sem data. */
+.card-avaliacao__selo { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-small); color: var(--grey-500); }
+.card-avaliacao__selo svg { width: 14px; height: 14px; color: var(--gold); flex: none; }
+.card-avaliacao__autor { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border-subtle); }
+.avatar-inicial {
+  width: 42px; height: 42px; flex: none; border-radius: 50%;
+  background: var(--linen); color: var(--indigo-core);
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 1.125rem; font-weight: var(--fw-medium);
+}
+
+/* ---------- 19. FAQ ---------- */
+.faq { display: flex; flex-direction: column; }
+.faq__item { border-bottom: 1px solid var(--border-subtle); }
+.faq__item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding-block: var(--space-5); cursor: pointer; list-style: none;
+  font-size: 1.0625rem; font-weight: var(--fw-semibold); color: var(--text-heading);
+  min-height: 44px;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__icone { width: 20px; height: 20px; flex: none; color: var(--indigo-core); transition: transform var(--dur-base) var(--ease-out); }
+.faq__item[open] .faq__icone { transform: rotate(45deg); }
+.faq__resposta { padding-bottom: var(--space-5); max-width: 62ch; }
+
+/* ---------- 20. CTA FINAL ---------- */
+.cta-final { background-image: var(--grad-mesh-brand); background-size: cover; background-position: center; padding-block: var(--space-9); }
+.cta-final__cartao .eyebrow { color: var(--gold-texto); }
+.cta-final__cartao {
+  background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+  padding: var(--space-6); text-align: center; max-width: 640px; margin-inline: auto;
+}
+@media (min-width: 900px) { .cta-final__cartao { padding: var(--space-8); } }
+.cta-final__cartao .btn-grupo { justify-content: center; margin-top: var(--space-5); }
+.aviso-emergencia { font-size: var(--fs-small); color: var(--grey-500); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--border-subtle); }
+
+/* ---------- 21. RODAPÉ ---------- */
+.rodape { background: var(--indigo-deep); color: var(--text-on-invert); padding-block: var(--space-8) var(--space-6); }
+.rodape a { color: var(--text-on-invert-muted); text-decoration: none; }
+.rodape a:hover { color: var(--white); }
+.rodape__colunas { display: grid; gap: var(--space-6); }
+@media (min-width: 600px) { .rodape__colunas { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .rodape__colunas { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--space-7); } }
+.rodape h4 { font-size: 0.75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: var(--space-4); }
+.rodape li + li { margin-top: var(--space-2); }
+/* Celular e tablet: cada link do rodapé com 44px de altura para o dedo. */
+@media (max-width: 899px) {
+  .rodape li + li { margin-top: 0; }
+  .rodape li a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+.rodape .marca__nome { color: var(--white); }
+.rodape .marca__papel { color: var(--text-on-invert-muted); }
+.rodape address { font-style: normal; font-size: var(--fs-small); color: var(--text-on-invert-muted); }
+.rodape__base { margin-top: var(--space-7); padding-top: var(--space-5); border-top: 1px solid var(--border-invert); display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: space-between; font-size: var(--fs-small); color: var(--text-on-invert-muted); }
+.rodape__aviso { background: rgba(255,255,255,.06); border: 1px solid var(--border-invert); border-radius: var(--radius-md); padding: var(--space-4); font-size: var(--fs-small); color: var(--text-on-invert-muted); margin-top: var(--space-6); }
+
+/* ---------- 22. FLUTUANTES ---------- */
+.whats-flutuante {
+  position: fixed; left: var(--gutter); right: var(--gutter); bottom: var(--space-4); z-index: 40;
+  max-width: 480px; margin-inline: auto;
+  height: 56px; border-radius: var(--radius-pill);
+  background: var(--indigo-core); color: var(--white);
+  display: flex; align-items: center; justify-content: center; gap: var(--space-3);
+  font-size: 0.9375rem; font-weight: var(--fw-semibold); text-decoration: none;
+  box-shadow: var(--shadow-indigo);
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), visibility var(--dur-base);
+}
+.whats-flutuante svg { width: 22px; height: 22px; flex: none; }
+.whats-flutuante[data-visivel="true"] { opacity: 1; visibility: visible; transform: translateY(0); }
+.whats-flutuante:active { background: var(--indigo-deep); }
+@media (min-width: 900px) { .whats-flutuante { display: none; } }
+
+.cookies {
+  position: fixed; left: var(--gutter); right: var(--gutter); bottom: var(--space-4); z-index: 45;
+  background: var(--white); border: 1px solid var(--border-default); border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg); padding: var(--space-4);
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3);
+  max-width: 720px; margin-inline: auto;
+}
+.cookies[hidden] { display: none; }
+.cookies p { font-size: var(--fs-small); flex: 1 1 260px; }
+.cookies .btn { padding: 10px 18px; min-height: 40px; }
+
+/* ---------- 23. ANIMAÇÃO ---------- */
+.anima { opacity: 0; transform: translateY(16px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+.anima--visivel { opacity: 1; transform: none; }
+.anima[style*="--i"] { transition-delay: calc(var(--i) * 70ms); }
+html.sem-js .anima { opacity: 1; transform: none; }
+
+[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .anima { opacity: 1 !important; transform: none !important; }
+}
