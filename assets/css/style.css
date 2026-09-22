@@ -130,6 +130,10 @@ html.lenis { scroll-behavior: auto; }
 html.lenis-scrolling main { pointer-events: none; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+}
 .lenis.lenis-smooth iframe { pointer-events: none; }
 body {
   font-family: var(--font-body);
@@ -610,11 +614,12 @@ body[data-drawer="true"] { overflow: hidden; }
 @media (max-width: 599px) {
   .grid-deslizar, .carrossel {
     display: flex; gap: var(--space-4);
-    overflow-x: auto; overscroll-behavior-x: contain;
+    overflow-x: auto; overscroll-behavior-x: contain; overscroll-behavior-y: auto;
+    touch-action: pan-x pan-y;
     /* 22/09: encaixe automático desligado. Com "mandatory" (e ainda com
        "proximity", perto do começo), arrastar meio cartão não levava a lugar
        nenhum — o navegador puxava tudo de volta. Agora o dedo manda: para
-       onde arrastar, ali fica. */
+       onde arrastar, ali fica, e o gesto vertical continua rolando a página. */
     scroll-snap-type: none; scroll-padding-inline: var(--gutter);
     -webkit-overflow-scrolling: touch;
     margin-inline: calc(-1 * var(--gutter)); padding: var(--space-1) var(--gutter) var(--space-4);

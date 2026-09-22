@@ -94,10 +94,19 @@
   });
 
   /* ---- Fileiras que se arrastam para o lado ---- */
-  // data-lenis-prevent: a rolagem suave da página não interfere no arrasto
-  // lateral dentro delas.
+  // O Lenis só é impedido quando o gesto é horizontal. Assim, passar o dedo
+  // para baixo/cima sobre uma fileira continua rolando a página; arrastar para
+  // o lado fica com a própria fileira.
   document.querySelectorAll('.grid-deslizar, .carrossel').forEach(function (el) {
-    el.setAttribute('data-lenis-prevent', '');
+    el.setAttribute('data-lenis-prevent-horizontal', '');
+
+    el.addEventListener('wheel', function (e) {
+      var horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+      if (!horizontal) return;
+      var antes = el.scrollLeft;
+      el.scrollLeft += e.deltaX;
+      if (el.scrollLeft !== antes) e.stopPropagation();
+    }, { passive: true });
   });
 
   /* ---- Faixa de credenciais que gira sozinha (celular e tablet) ---- */
