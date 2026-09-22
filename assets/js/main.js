@@ -93,6 +93,47 @@
     if (e.key === 'Escape' && drawer && drawer.dataset.aberto === 'true') estadoDrawer(false);
   });
 
+  /* ---- Faixa de credenciais que gira sozinha (celular e tablet) ---- */
+  // Uma linha só, em laço contínuo: as pílulas são duplicadas e a faixa anda
+  // exatamente a distância de uma volta, então a emenda não aparece.
+  var faixa = document.querySelector('.faixa-confianca__lista');
+  if (faixa && !reduzir) {
+    var originais = Array.prototype.slice.call(faixa.children);
+    var duplicadas = false;
+    var girar = function () {
+      var cabe = window.matchMedia('(max-width: 899px)').matches;
+      if (!cabe) {
+        if (duplicadas) {
+          faixa.querySelectorAll('[data-copia]').forEach(function (el) { el.remove(); });
+          duplicadas = false;
+        }
+        faixa.removeAttribute('data-girando');
+        return;
+      }
+      if (!duplicadas) {
+        originais.forEach(function (el) {
+          var c = el.cloneNode(true);
+          c.setAttribute('data-copia', '');
+          c.setAttribute('aria-hidden', 'true');
+          faixa.appendChild(c);
+        });
+        duplicadas = true;
+      }
+      faixa.removeAttribute('data-girando');
+      var primeiro = originais[0];
+      var copia = faixa.querySelector('[data-copia]');
+      if (!primeiro || !copia) return;
+      var volta = copia.offsetLeft - primeiro.offsetLeft;
+      if (volta <= 0) return;
+      faixa.style.setProperty('--faixa-volta', volta + 'px');
+      // velocidade constante: ~45px por segundo, não importa o tamanho do texto
+      faixa.style.setProperty('--faixa-tempo', Math.round(volta / 45) + 's');
+      faixa.setAttribute('data-girando', 'true');
+    };
+    girar();
+    window.addEventListener('resize', girar);
+  }
+
   /* ---- 4. Animações de entrada ---- */
   var alvos = document.querySelectorAll('.anima');
   if (reduzir || !('IntersectionObserver' in window)) {

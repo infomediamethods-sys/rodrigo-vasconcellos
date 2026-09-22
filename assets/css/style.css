@@ -563,37 +563,36 @@ body[data-drawer="true"] { overflow: hidden; }
   font-size: 0.8125rem; color: var(--text-body); white-space: nowrap;
 }
 .pill-credencial svg { width: 16px; height: 16px; color: var(--gold); flex: none; }
-/* Celular e tablet (22/09, pedido do Armin): as cinco credenciais aparecem
-   todas, sem rolagem lateral, em pirâmide: as duas maiores em cima e as três
-   menores embaixo. Ícone à esquerda do texto (pedido do Armin). */
+/* Celular e tablet (22/09, pedido do Armin): a faixa de credenciais volta a
+   ser UMA linha só e passa a girar sozinha, em laço contínuo — a pirâmide de
+   cinco pílulas ficou apertada. O main.js duplica as pílulas e mede a volta
+   exata (--faixa-volta); aqui só roda a animação. Sem JavaScript, ou com
+   "reduzir movimento" ligado, a faixa fica parada e volta a arrastar com o
+   dedo. */
 @media (max-width: 899px) {
-  /* flex com quebra forçada: cada linha só ocupa a largura que o texto pede */
+  .faixa-confianca > .container {
+    overflow: hidden; padding-inline: 0;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+  }
   .faixa-confianca__lista {
-    flex-wrap: wrap; justify-content: center; gap: 4px var(--space-2);
-    overflow: visible; max-width: 34rem; margin-inline: auto;
+    flex-wrap: nowrap; justify-content: flex-start; gap: var(--space-3);
+    padding-inline: var(--gutter);
   }
-  .faixa-confianca__lista::before { content: ""; flex-basis: 100%; height: 0; order: 0; }
-  .pill-credencial {
-    flex: 1 1 0; min-width: 0; justify-content: center; gap: 6px; order: 1;
-    padding: 6px 10px; border-radius: var(--radius-pill); min-height: 40px;
-    text-align: left; white-space: normal; line-height: 1.2; font-size: 0.75rem;
+  .faixa-confianca__lista[data-girando="true"] {
+    width: max-content; overflow: visible; scroll-snap-type: none;
+    animation: faixa-girar var(--faixa-tempo, 30s) linear infinite;
   }
-  .pill-credencial svg { width: 14px; height: 14px; }
-  /* as duas de cima sempre lado a lado; o texto quebra se não couber */
-  .pill-credencial:nth-child(2), .pill-credencial:nth-child(4) { flex: 1 1 40%; order: -1; }
-  /* embaixo, quem tem texto maior ganha um pouco mais de largura */
-  .pill-credencial:nth-child(1) { flex-grow: 1; }
-  .pill-credencial:nth-child(3) { flex-grow: 1.1; }
-  .pill-credencial:nth-child(5) { flex-grow: 1.3; }
+  .faixa-confianca__lista[data-girando="true"]:active { animation-play-state: paused; }
+  .pill-credencial { white-space: nowrap; }
 }
-@media (max-width: 374px) {
-  .pill-credencial { padding: 6px 6px; gap: 4px; font-size: 0.6875rem; }
-  .pill-credencial svg { width: 12px; height: 12px; }
+@keyframes faixa-girar {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-1 * var(--faixa-volta, 0px)), 0, 0); }
 }
-@media (min-width: 600px) and (max-width: 899px) {
-  .pill-credencial:nth-child(2), .pill-credencial:nth-child(4) { flex: 0 1 auto; white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) {
+  .faixa-confianca__lista[data-girando="true"] { animation: none; }
 }
-
 
 /* ---------- 12. GRADE "COMO POSSO AJUDAR" ---------- */
 @media (min-width: 900px) {
