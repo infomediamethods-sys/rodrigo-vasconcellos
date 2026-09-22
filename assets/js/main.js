@@ -9,11 +9,10 @@
   // Desligada para quem pediu menos movimento no sistema.
   var lenis = null;
   if (!reduzir && window.Lenis) {
-    lenis = new window.Lenis({
-      duration: 1.1,
-      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
-      smoothWheel: true
-    });
+    // lerp: cada quadro anda 10% do caminho que falta. É o modo recomendado
+    // pelo Lenis para roda e trackpad — com "duration", cada evento de roda
+    // reiniciava a animação e a velocidade oscilava (microtravamentos).
+    lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true, wheelMultiplier: 1 });
     var quadro = function (tempo) { lenis.raf(tempo); requestAnimationFrame(quadro); };
     requestAnimationFrame(quadro);
 
@@ -29,7 +28,7 @@
       e.preventDefault();
       // O Lenis já respeita o scroll-margin-top do CSS (altura do cabeçalho + 16px),
       // então não precisa de deslocamento extra aqui.
-      lenis.scrollTo(alvo);
+      lenis.scrollTo(alvo, { duration: 1.2, easing: function (x) { return Math.min(1, 1.001 - Math.pow(2, -10 * x)); } });
       if (history.pushState) history.pushState(null, '', url.hash);
     });
   }
@@ -44,8 +43,11 @@
   if (header) {
     // Vira barra de ponta a ponta no momento em que a cápsula encosta no
     // topo da tela, ou seja, quando a barra de aviso já saiu de vista.
+    // altura da barra de aviso medida uma vez (e no resize), não a cada quadro
+    var alturaAviso = (aviso && !aviso.hidden) ? aviso.offsetHeight : 0;
+    window.addEventListener('resize', function () { alturaAviso = (aviso && !aviso.hidden) ? aviso.offsetHeight : 0; });
     var aplicarHeader = function () {
-      var limite = (aviso && !aviso.hidden) ? aviso.offsetHeight : 0;
+      var limite = alturaAviso;
       header.classList.toggle('header--compacto', window.scrollY > limite + 2);
     };
     aplicarHeader();
