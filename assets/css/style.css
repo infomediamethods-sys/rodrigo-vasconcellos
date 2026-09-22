@@ -581,6 +581,7 @@ body[data-drawer="true"] { overflow: hidden; }
   }
   .faixa-confianca__lista[data-girando="true"] {
     width: max-content; overflow: visible; scroll-snap-type: none;
+    will-change: transform;
     animation: faixa-girar var(--faixa-tempo, 30s) linear infinite;
   }
   .faixa-confianca__lista[data-girando="true"]:active { animation-play-state: paused; }
@@ -610,13 +611,20 @@ body[data-drawer="true"] { overflow: hidden; }
   .grid-deslizar, .carrossel {
     display: flex; gap: var(--space-4);
     overflow-x: auto; overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    /* 22/09: encaixe automático desligado. Com "mandatory" (e ainda com
+       "proximity", perto do começo), arrastar meio cartão não levava a lugar
+       nenhum — o navegador puxava tudo de volta. Agora o dedo manda: para
+       onde arrastar, ali fica. */
+    scroll-snap-type: none; scroll-padding-inline: var(--gutter);
+    -webkit-overflow-scrolling: touch;
     margin-inline: calc(-1 * var(--gutter)); padding: var(--space-1) var(--gutter) var(--space-4);
     scrollbar-width: none;
   }
   .grid-deslizar::-webkit-scrollbar { display: none; }
-  .grid-deslizar > * { flex: 0 0 84%; scroll-snap-align: start; height: auto; }
-  .card-avaliacao { flex-basis: 84%; }
+  /* cartão um pouco mais estreito: sobra mais pedaço do próximo à vista e
+     mais espaço de tela para o dedo arrastar */
+  .grid-deslizar > * { flex: 0 0 78%; height: auto; }
+  .card-avaliacao { flex-basis: 78%; }
   /* cartões fora da tela não esperam a animação de entrada */
   .grid-deslizar > .anima, .carrossel > .anima { opacity: 1; transform: none; }
   .deslizar-dica { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--fs-small); color: var(--grey-500); }
@@ -846,4 +854,12 @@ html.sem-js .anima { opacity: 1; transform: none; }
   .topo-vidro__titulo { max-width: 60%; }
   .topo-vidro__titulo h1 { font-size: var(--fs-h1); line-height: var(--lh-display); max-width: 18ch; }
   .topo-vidro__cartao { width: min(480px, 42%); padding: var(--space-6); }
+}
+
+/* O carrossel de avaliações herda "mandatory" da regra base (seção 18), que
+   vem depois da 12b no arquivo. No celular ele segue a mesma regra das outras
+   fileiras: sem encaixe automático. */
+@media (max-width: 599px) {
+  .carrossel { scroll-snap-type: none; }
+  .card-avaliacao { scroll-snap-align: none; }
 }

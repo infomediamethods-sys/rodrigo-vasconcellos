@@ -93,6 +93,13 @@
     if (e.key === 'Escape' && drawer && drawer.dataset.aberto === 'true') estadoDrawer(false);
   });
 
+  /* ---- Fileiras que se arrastam para o lado ---- */
+  // data-lenis-prevent: a rolagem suave da página não interfere no arrasto
+  // lateral dentro delas.
+  document.querySelectorAll('.grid-deslizar, .carrossel').forEach(function (el) {
+    el.setAttribute('data-lenis-prevent', '');
+  });
+
   /* ---- Faixa de credenciais que gira sozinha (celular e tablet) ---- */
   // Uma linha só, em laço contínuo: as pílulas são duplicadas e a faixa anda
   // exatamente a distância de uma volta, então a emenda não aparece.
@@ -119,19 +126,30 @@
         });
         duplicadas = true;
       }
-      faixa.removeAttribute('data-girando');
       var primeiro = originais[0];
       var copia = faixa.querySelector('[data-copia]');
       if (!primeiro || !copia) return;
+      // offsetLeft não sofre com o transform da animação, então dá para medir
+      // sem parar o laço — parar e religar é o que fazia a faixa "pular".
       var volta = copia.offsetLeft - primeiro.offsetLeft;
       if (volta <= 0) return;
-      faixa.style.setProperty('--faixa-volta', volta + 'px');
-      // velocidade constante: ~45px por segundo, não importa o tamanho do texto
-      faixa.style.setProperty('--faixa-tempo', Math.round(volta / 45) + 's');
-      faixa.setAttribute('data-girando', 'true');
+      if (faixa.style.getPropertyValue('--faixa-volta') !== volta + 'px') {
+        faixa.style.setProperty('--faixa-volta', volta + 'px');
+        // velocidade constante: ~45px por segundo, não importa o tamanho do texto
+        faixa.style.setProperty('--faixa-tempo', Math.round(volta / 45) + 's');
+      }
+      if (faixa.getAttribute('data-girando') !== 'true') faixa.setAttribute('data-girando', 'true');
     };
     girar();
-    window.addEventListener('resize', girar);
+    // No celular a barra de endereço aparecendo e sumindo dispara "resize" a
+    // cada rolagem. Só refazer a conta quando a LARGURA mudar de verdade —
+    // era isso que reiniciava a animação e fazia a faixa voltar.
+    var larguraAnterior = window.innerWidth;
+    window.addEventListener('resize', function () {
+      if (window.innerWidth === larguraAnterior) return;
+      larguraAnterior = window.innerWidth;
+      girar();
+    });
   }
 
   /* ---- 4. Animações de entrada ---- */
