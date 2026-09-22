@@ -4,11 +4,14 @@
   'use strict';
 
   var reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mobileOuTablet = window.matchMedia('(max-width: 899px)').matches;
 
   /* ---- 0. Rolagem suave (Lenis) ---- */
-  // Desligada para quem pediu menos movimento no sistema.
+  // Desligada para quem pediu menos movimento no sistema e também em
+  // celular/tablet: nesses tamanhos, a rolagem nativa responde melhor quando
+  // há carrosséis horizontais dentro da página.
   var lenis = null;
-  if (!reduzir && window.Lenis) {
+  if (!reduzir && !mobileOuTablet && window.Lenis) {
     // lerp: cada quadro anda 10% do caminho que falta. É o modo recomendado
     // pelo Lenis para roda e trackpad — com "duration", cada evento de roda
     // reiniciava a animação e a velocidade oscilava (microtravamentos).
